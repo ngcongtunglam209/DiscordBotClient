@@ -33,8 +33,8 @@ function runCommand(command: string, cwd?: string) {
 
     // Clone user plugin only if not exists
     if (!fs.existsSync(userPluginDir)) {
-        console.log("> Cloning aiko-chan-ai/VencordDBCPlugin...");
-        runCommand(`git clone --depth 1 https://github.com/aiko-chan-ai/VencordDBCPlugin.git ${userPluginDir}`);
+        console.log("> Cloning ngcongtunglam209/VencordDBCPlugin...");
+        runCommand(`git clone --depth 1 https://github.com/ngcongtunglam209/VencordDBCPlugin.git ${userPluginDir}`);
         console.log("> VencordDBCPlugin clone complete.");
     } else {
         console.log("> VencordDBCPlugin already exists, skipping clone.");
