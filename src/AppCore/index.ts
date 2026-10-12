@@ -45,12 +45,12 @@ export class DiscordBotClient extends EventEmitter {
     // Beta Features
     messageEditorPort!: number;
 
-    constructor () {
+    constructor() {
         super();
         this.logger.log("App starting...");
         this.initApp();
     }
-    initTray (menu: Electron.Menu) {
+    initTray(menu: Electron.Menu) {
         if (!this.tray) {
             this.tray = new Tray(Constants.icon16);
         }
@@ -60,7 +60,7 @@ export class DiscordBotClient extends EventEmitter {
         });
         this.tray.setContextMenu(menu);
     }
-    setupTray () {
+    setupTray() {
         const menu = Menu.buildFromTemplate([
             {
                 label: `${Constants.AppName} v${app.getVersion()}`,
@@ -161,7 +161,7 @@ export class DiscordBotClient extends EventEmitter {
         ]);
         this.initTray(menu);
     }
-    async initApp () {
+    async initApp() {
         this.port = await server();
         this.messageEditorPort = await messageEditor();
         app.setAppUserModelId(Constants.AppID);
@@ -277,14 +277,14 @@ export class DiscordBotClient extends EventEmitter {
 
         setupIPCEvents(this);
     }
-    get session () {
+    get session() {
         if (this.customSession) {
             return this.customSession;
         } else {
             return session.defaultSession;
         }
     }
-    async sessionPatch () {
+    async sessionPatch() {
         // Disable stripe.com
         this.session.webRequest.onBeforeRequest(
             {
@@ -332,11 +332,11 @@ export class DiscordBotClient extends EventEmitter {
                 callback({ responseHeaders: details.responseHeaders });
             },
         );
-        // Load Vencord-Web Extension
-        const extension = await this.session.extensions.loadExtension(Constants.VencordExtensionPath);
-        this.logger.info(`Loaded Vencord Extension v${extension.version} from ${Constants.VencordExtensionPath}`);
+        // Load Equicord-Web Extension
+        const extension = await this.session.extensions.loadExtension(Constants.EquicordExtensionPath);
+        this.logger.info(`Loaded Equicord Extension v${extension.version} from ${Constants.EquicordExtensionPath}`);
     }
-    async createWindow () {
+    async createWindow() {
         this.setupTray();
         const primaryDisplay = screen.getPrimaryDisplay();
         const { width, height } = primaryDisplay.workAreaSize;
@@ -479,9 +479,9 @@ export class DiscordBotClient extends EventEmitter {
 
         this.win.loadURL(`https://${Constants.CustomDiscordDomain}`);
     }
-    showNotification (options: NotificationConstructorOptions, callback?: () => unknown) {
+    showNotification(options: NotificationConstructorOptions, callback?: () => unknown) {
         const notif = new Notification(options);
-        function handleClick () {
+        function handleClick() {
             notif.close();
             if (callback && typeof callback === "function") callback();
         }
@@ -492,7 +492,7 @@ export class DiscordBotClient extends EventEmitter {
         }, 15000).unref();
         notif.show();
     }
-    checkingForUpdates (forceEmitted = false) {
+    checkingForUpdates(forceEmitted = false) {
         if (!app.isPackaged) {
             // autoUpdater.forceDevUpdateConfig = true; // ! Test
             if (forceEmitted) {
@@ -603,17 +603,17 @@ export class DiscordBotClient extends EventEmitter {
             autoUpdater.checkForUpdates();
         });
     }
-    relaunch () {
+    relaunch() {
         this.#shouldQuitApp = true;
         app.relaunch();
         app.quit();
     }
-    quit () {
+    quit() {
         this.#shouldQuitApp = true;
         app.quit();
     }
     // Editor Window
-    openConfigEditorWindow () {
+    openConfigEditorWindow() {
         if (this.editorWindow && !this.editorWindow.isDestroyed()) {
             this.editorWindow.show();
             return;
@@ -645,7 +645,7 @@ export class DiscordBotClient extends EventEmitter {
     }
 
     // Beta
-    openDiscordMessageEditorWindow () {
+    openDiscordMessageEditorWindow() {
         const editorWindow = new BrowserWindow({
             width: 1080,
             height: 720,
@@ -679,7 +679,7 @@ export class DiscordBotClient extends EventEmitter {
         });
     }
 
-    get app () {
+    get app() {
         return app;
     }
 }
